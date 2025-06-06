@@ -85,6 +85,7 @@ activities = {
 
 @app.get("/")
 def root():
+    # Redirects the root URL to the static index.html page for the web frontend.
     return RedirectResponse(url="/static/index.html")
 
 """Get a list of all activities."""
@@ -97,7 +98,8 @@ Get details of a specific activity by name."""
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
-    # Validate activity exists
+    # Checks if the requested activity exists in the activities collection.
+    # If not, it raises a 404 error to indicate the activity was not found.
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
