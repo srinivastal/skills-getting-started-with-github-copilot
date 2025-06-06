@@ -20,9 +20,11 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
 # In-memory activity database
+# This collection exists to store all extracurricular activities, their details, and the list of participants.
+# It allows the API to serve activity information and manage signups without a persistent database.
 activities = {
     "Chess Club": {
-        "description": "Learn strategies and compete in chess tournaments",
+        "description": "Learning strategies and compete in chess tournaments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
         "max_participants": 12,
         "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
@@ -85,12 +87,13 @@ activities = {
 def root():
     return RedirectResponse(url="/static/index.html")
 
-
+"""Get a list of all activities."""
 @app.get("/activities")
 def get_activities():
     return activities
 
-
+"""
+Get details of a specific activity by name."""
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
